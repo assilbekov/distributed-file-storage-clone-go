@@ -12,3 +12,10 @@ type TCPTransport struct {
 	mu    sync.RWMutex
 	peers map[net.Addr]Peer
 }
+
+func NewTCPTransport(listenAddr string) *TCPTransport {
+	return &TCPTransport{
+		listenAddr: listenAddr,
+		peers:      make(map[net.Addr]Peer),
+	}
+}
