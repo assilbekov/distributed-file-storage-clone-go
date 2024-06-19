@@ -1,6 +1,7 @@
 package p2p
 
 import (
+	"fmt"
 	"net"
 	"sync"
 )
@@ -28,5 +29,27 @@ func (t *TCPTransport) ListenAndAccept() error {
 
 	t.listener = ln
 
+	go t.startAcceptLoop()
+
 	return nil
+}
+
+func (t *TCPTransport) startAcceptLoop() {
+	for {
+		conn, err := t.listener.Accept()
+		if err != nil {
+			// Handle error
+			fmt.Printf("TCP error accepting connection: %v\n", err)
+			continue
+		}
+
+		go t.handleConnection(conn)
+	}
+}
+
+func (t *TCPTransport) handleConnection(conn net.Conn) {
+	fmt.Printf("Handling connection from %v\n", conn.RemoteAddr())
+	// Read the message
+	// Decode the message
+	// Handle the message
 }
