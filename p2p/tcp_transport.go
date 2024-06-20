@@ -6,6 +6,15 @@ import (
 	"sync"
 )
 
+// TCPPeer represents a node in the network.
+type TCPPeer struct {
+	conn net.Conn
+
+	// if we dial and retrieve a connection, outbound is true
+	// if we accept and retrieve a connection, outbound is false
+	outbound bool
+}
+
 type TCPTransport struct {
 	listenAddr string
 	listener   net.Listener
