@@ -8,5 +8,9 @@ import (
 func main() {
 	tr := p2p.NewTCPTransport(":4000")
 
-	log.Fatal(tr.ListenAndAccept())
+	if err := tr.ListenAndAccept(); err != nil {
+		log.Fatalf("failed to listen and accept: %v", err)
+	}
+
+	select {}
 }
