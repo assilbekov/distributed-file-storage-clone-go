@@ -1,7 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"github.com/assilbekov/distributed-file-storage-clone-go/p2p"
+	"log"
+)
 
 func main() {
-	fmt.Println("Hello, World!")
+	tr := p2p.NewTCPTransport(":4000")
+
+	log.Fatal(tr.ListenAndAccept())
 }
