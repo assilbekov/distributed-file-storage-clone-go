@@ -67,6 +67,10 @@ func (t *TCPTransport) startAcceptLoop() {
 	}
 }
 
+type Temp struct {
+	//
+}
+
 func (t *TCPTransport) handleConnection(conn net.Conn) {
 	peer := NewTCPPeer(conn, true)
 
@@ -77,8 +81,13 @@ func (t *TCPTransport) handleConnection(conn net.Conn) {
 	}
 
 	// Read loop
+	msg := &Temp{}
 	for {
-		t.decoder.Decode(conn, nil)
+		if err := t.decoder.Decode(conn, msg); err != nil {
+			// Handle error
+			fmt.Printf("TCP error decoding message: %v\n", err)
+			return
+		}
 	}
 
 	fmt.Println("New incoming peer: ", peer)
