@@ -32,10 +32,6 @@ type TCPTransport struct {
 	peers map[net.Addr]Peer
 }
 
-func NOPHandshakeFunc(any) error {
-	return nil
-}
-
 func NewTCPTransport(listenAddr string) *TCPTransport {
 	return &TCPTransport{
 		listenAddr:    listenAddr,
