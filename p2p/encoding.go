@@ -1,6 +1,9 @@
 package p2p
 
-import "io"
+import (
+	"encoding/gob"
+	"io"
+)
 
 type Decoder interface {
 	Decode(io.Reader, any) error
@@ -8,6 +11,6 @@ type Decoder interface {
 
 type GOBDecoder struct{}
 
-func (g *GOBDecoder) Decode(r io.Reader, v any) error {
-	return nil
+func (dec *GOBDecoder) Decode(r io.Reader, v any) error {
+	return gob.NewDecoder(r).Decode(v)
 }
