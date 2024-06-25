@@ -30,20 +30,16 @@ type TCPTransportOpts struct {
 }
 
 type TCPTransport struct {
-	listenAddr string
-	listener   net.Listener
-	shakeHands HandshakeFunc
-	decoder    Decoder
+	TCPTransportOpts
+	listener net.Listener
 
 	mu    sync.RWMutex
 	peers map[net.Addr]Peer
 }
 
-func NewTCPTransport(listenAddr string) *TCPTransport {
+func NewTCPTransport(opts TCPTransportOpts) *TCPTransport {
 	return &TCPTransport{
-		listenAddr: listenAddr,
-		shakeHands: NOPHandshakeFunc,
-		peers:      make(map[net.Addr]Peer),
+		TCPTransportOpts: opts,
 	}
 }
 
