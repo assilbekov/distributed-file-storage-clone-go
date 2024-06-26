@@ -91,6 +91,8 @@ func (t *TCPTransport) handleConnection(conn net.Conn) {
 			fmt.Printf("TCP error decoding message: %v\n", err)
 			return
 		}
+
+		fmt.Printf("Received message: %v\n", msg)
 	}
 
 	fmt.Println("New incoming peer: ", peer)
