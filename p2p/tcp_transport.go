@@ -86,15 +86,24 @@ func (t *TCPTransport) handleConnection(conn net.Conn) {
 	fmt.Printf("Handling connection from %v\n", conn.RemoteAddr())
 
 	// Read loop
-	buf := make([]byte, 1024)
+	msg := &Message{}
+	// buf := make([]byte, 1024)
 	for {
-		n, err := conn.Read(buf)
+		/*n, err := conn.Read(buf)
 		if err != nil {
 			// Handle error
 			fmt.Printf("TCP error reading from connection: %v\n", err)
 			return
 		}
-		fmt.Printf("Received message: %v\n", buf[:n])
+		fmt.Printf("Received message: %v\n", buf[:n])*/
+
+		if err := t.Decoder.Decode(conn, msg); err != nil {
+			// Handle error
+			fmt.Printf("TCP error decoding message: %v\n", err)
+			continue
+		}
+
+		fmt.Printf("Received message: %v\n", msg)
 	}
 
 	// Read the message
