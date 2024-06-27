@@ -1,7 +1,6 @@
 package p2p
 
 import (
-	"bytes"
 	"fmt"
 	"net"
 	"sync"
@@ -84,8 +83,10 @@ func (t *TCPTransport) handleConnection(conn net.Conn) {
 		return
 	}
 
+	fmt.Printf("Handling connection from %v\n", conn.RemoteAddr())
+
 	// Read loop
-	buf := new(bytes.Buffer)
+	buf := make([]byte, 1024)
 	for {
 		n, err := conn.Read(buf)
 		if err != nil {
@@ -93,10 +94,9 @@ func (t *TCPTransport) handleConnection(conn net.Conn) {
 			fmt.Printf("TCP error reading from connection: %v\n", err)
 			return
 		}
+		fmt.Printf("Received message: %v\n", buf[:n])
 	}
 
-	fmt.Printf("Received message: %v\n", buf.String())
-	fmt.Printf("Handling connection from %v\n", conn.RemoteAddr())
 	// Read the message
 	// Decode the message
 	// Handle the message
