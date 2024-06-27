@@ -14,3 +14,9 @@ type GOBDecoder struct{}
 func (dec GOBDecoder) Decode(r io.Reader, v any) error {
 	return gob.NewDecoder(r).Decode(v)
 }
+
+type NOPDecoder struct{}
+
+func (dec NOPDecoder) Decode(r io.Reader, v any) error {
+	return gob.NewDecoder(r).Decode(v)
+}
