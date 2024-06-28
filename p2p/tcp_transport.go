@@ -94,6 +94,8 @@ func (t *TCPTransport) handleConnection(conn net.Conn) {
 			continue
 		}
 
+		msg.From = conn.RemoteAddr()
+
 		fmt.Printf("Received message: %v\n", msg)
 	}
 
