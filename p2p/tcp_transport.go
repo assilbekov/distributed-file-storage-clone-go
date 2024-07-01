@@ -90,9 +90,6 @@ func (t *TCPTransport) handleConnection(conn net.Conn) {
 	peer := NewTCPPeer(conn, true)
 
 	if err := t.HandshakeFunc(peer); err != nil {
-		conn.Close()
-		// Handle error
-		fmt.Printf("TCP handshake error: %v\n", err)
 		return
 	}
 
