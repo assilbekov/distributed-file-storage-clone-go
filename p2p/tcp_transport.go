@@ -89,8 +89,14 @@ func (t *TCPTransport) handleConnection(conn net.Conn) {
 
 	peer := NewTCPPeer(conn, true)
 
-	if err := t.HandshakeFunc(peer); err != nil {
+	if err = t.HandshakeFunc(peer); err != nil {
 		return
+	}
+
+	if t.onPeer != nil {
+		if err = t.onPeer(peer); err != nil {
+			return
+		}
 	}
 
 	fmt.Printf("Handling connection from %v\n", conn.RemoteAddr())
