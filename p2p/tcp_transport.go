@@ -79,6 +79,14 @@ func (t *TCPTransport) startAcceptLoop() {
 }
 
 func (t *TCPTransport) handleConnection(conn net.Conn) {
+	var err error
+	defer func() {
+		fmt.Printf("Closing connection from %v\n, with error: %v", conn.RemoteAddr(), err)
+		if err := conn.Close(); err != nil {
+			fmt.Printf("TCP error closing connection: %v\n", err)
+		}
+	}()
+
 	peer := NewTCPPeer(conn, true)
 
 	if err := t.HandshakeFunc(peer); err != nil {
