@@ -31,6 +31,7 @@ type TCPTransportOpts struct {
 	ListedAddr    string
 	HandshakeFunc HandshakeFunc
 	Decoder       Decoder
+	onPeer        func(Peer) error
 }
 
 type TCPTransport struct {
