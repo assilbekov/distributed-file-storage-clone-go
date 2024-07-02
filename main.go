@@ -6,15 +6,17 @@ import (
 	"log"
 )
 
+func OnPeer(peer p2p.Peer) error {
+	fmt.Printf("Peer connected: %s\n", peer)
+	return nil
+}
+
 func main() {
 	tcpOpts := p2p.TCPTransportOpts{
 		ListedAddr:    ":4000",
 		Decoder:       p2p.DefaultDecoder{},
 		HandshakeFunc: p2p.NOPHandshakeFunc,
-		OnPeer: func(peer p2p.Peer) error {
-			fmt.Printf("Peer connected: %s\n", peer)
-			return nil
-		},
+		OnPeer:        OnPeer,
 	}
 	tr := p2p.NewTCPTransport(tcpOpts)
 
