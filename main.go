@@ -7,7 +7,7 @@ import (
 )
 
 func OnPeer(peer p2p.Peer) error {
-	fmt.Printf("Peer connected: %s\n", peer)
+	peer.Close()
 	return nil
 }
 
