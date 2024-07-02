@@ -11,6 +11,10 @@ func main() {
 		ListedAddr:    ":4000",
 		Decoder:       p2p.DefaultDecoder{},
 		HandshakeFunc: p2p.NOPHandshakeFunc,
+		OnPeer: func(peer p2p.Peer) error {
+			fmt.Printf("Peer connected: %s\n", peer)
+			return nil
+		},
 	}
 	tr := p2p.NewTCPTransport(tcpOpts)
 
