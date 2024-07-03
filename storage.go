@@ -2,7 +2,11 @@ package main
 
 import "io"
 
-type StoreOpts struct{}
+type PathTransformFunc func(string) string
+
+type StoreOpts struct {
+	PathTransformFunc
+}
 
 type Store struct {
 	//
