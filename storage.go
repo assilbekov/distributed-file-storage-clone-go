@@ -9,7 +9,13 @@ type StoreOpts struct {
 }
 
 type Store struct {
-	//
+	StoreOpts
+}
+
+func NewStore(opts StoreOpts) *Store {
+	return &Store{
+		StoreOpts: opts,
+	}
 }
 
 func (s *Store) writeStream(key string, r io.Reader) error {
