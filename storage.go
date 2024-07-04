@@ -8,6 +8,10 @@ type StoreOpts struct {
 	PathTransformFunc
 }
 
+var DefaultPathTransformFunc = func(key string) string {
+	return key
+}
+
 type Store struct {
 	StoreOpts
 }
