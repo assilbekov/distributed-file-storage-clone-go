@@ -36,7 +36,7 @@ func (s *Store) writeStream(key string, r io.Reader) error {
 	filename := "somefilename"
 	pathAndFilename := pathname + "/" + filename
 
-	f, err := os.Open(pathAndFilename)
+	f, err := os.Create(pathAndFilename)
 	if err != nil {
 		return err
 	}
