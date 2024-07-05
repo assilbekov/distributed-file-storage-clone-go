@@ -5,6 +5,9 @@ import (
 	"testing"
 )
 
+func TestPathTransformFunc(t *testing.T) {
+}
+
 func TestStore(t *testing.T) {
 	opts := StoreOpts{
 		PathTransformFunc: DefaultPathTransformFunc,
