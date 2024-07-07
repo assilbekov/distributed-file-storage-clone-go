@@ -26,7 +26,7 @@ func CASPathTransformFunc(key string) PathKey {
 	}
 
 	return PathKey{
-		Pathname: strings.Join(paths, "/"),
+		PathName: strings.Join(paths, "/"),
 		Original: key,
 	}
 }
@@ -34,7 +34,7 @@ func CASPathTransformFunc(key string) PathKey {
 type PathTransformFunc func(string) PathKey
 
 type PathKey struct {
-	Pathname string
+	PathName string
 	Original string
 }
 
@@ -57,8 +57,8 @@ func NewStore(opts StoreOpts) *Store {
 }
 
 func (s *Store) writeStream(key string, r io.Reader) error {
-	pathname := s.PathTransformFunc(key)
-	if err := os.MkdirAll(pathname, os.ModePerm); err != nil {
+	pathKey := s.PathTransformFunc(key)
+	if err := os.MkdirAll(pathKey.Pathname, os.ModePerm); err != nil {
 		return err
 	}
 
@@ -67,7 +67,7 @@ func (s *Store) writeStream(key string, r io.Reader) error {
 
 	filenameMd5 := md5.Sum(buf.Bytes())
 	filename := hex.EncodeToString(filenameMd5[:])
-	pathAndFilename := pathname + "/" + filename
+	pathAndFilename := pathKey.Pathname + "/" + filename
 
 	f, err := os.Create(pathAndFilename)
 	if err != nil {
