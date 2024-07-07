@@ -30,6 +30,11 @@ func CASPathTransformFunc(key string) string {
 
 type PathTransformFunc func(string) string
 
+type PathKey struct {
+	Pathname string
+	Original string
+}
+
 type StoreOpts struct {
 	PathTransformFunc
 }
