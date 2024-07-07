@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-func CASPathTransformFunc(key string) string {
+func CASPathTransformFunc(key string) PathKey {
 	hash := sha1.Sum([]byte(key))
 	hashStr := hex.EncodeToString(hash[:])
 
@@ -25,10 +25,13 @@ func CASPathTransformFunc(key string) string {
 		paths[i] = hashStr[from:to]
 	}
 
-	return strings.Join(paths, "/")
+	return PathKey{
+		Pathname: strings.Join(paths, "/"),
+		Original: key,
+	}
 }
 
-type PathTransformFunc func(string) string
+type PathTransformFunc func(string) PathKey
 
 type PathKey struct {
 	Pathname string
