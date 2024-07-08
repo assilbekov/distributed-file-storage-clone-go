@@ -58,7 +58,7 @@ func NewStore(opts StoreOpts) *Store {
 
 func (s *Store) writeStream(key string, r io.Reader) error {
 	pathKey := s.PathTransformFunc(key)
-	if err := os.MkdirAll(pathKey.Pathname, os.ModePerm); err != nil {
+	if err := os.MkdirAll(pathKey.PathName, os.ModePerm); err != nil {
 		return err
 	}
 
@@ -67,7 +67,7 @@ func (s *Store) writeStream(key string, r io.Reader) error {
 
 	filenameMd5 := md5.Sum(buf.Bytes())
 	filename := hex.EncodeToString(filenameMd5[:])
-	pathAndFilename := pathKey.Pathname + "/" + filename
+	pathAndFilename := pathKey.PathName + "/" + filename
 
 	f, err := os.Create(pathAndFilename)
 	if err != nil {
@@ -79,7 +79,7 @@ func (s *Store) writeStream(key string, r io.Reader) error {
 		return err
 	}
 
-	log.Printf("Wrote %d bytes to %s\n", n, pathname+"/"+filename)
+	log.Printf("Wrote %d bytes to %s\n", n, pathKey.PathName+"/"+filename)
 
 	return nil
 }
