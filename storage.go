@@ -5,6 +5,7 @@ import (
 	"crypto/md5"
 	"crypto/sha1"
 	"encoding/hex"
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -36,6 +37,10 @@ type PathTransformFunc func(string) PathKey
 type PathKey struct {
 	PathName string
 	Original string
+}
+
+func (p PathKey) Filename() string {
+	return fmt.Sprintf("%s/%s", p.PathName, p.Original)
 }
 
 type StoreOpts struct {
