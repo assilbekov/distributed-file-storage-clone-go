@@ -1,8 +1,6 @@
 package main
 
 import (
-	"bytes"
-	"crypto/md5"
 	"crypto/sha1"
 	"encoding/hex"
 	"fmt"
@@ -67,24 +65,19 @@ func (s *Store) writeStream(key string, r io.Reader) error {
 		return err
 	}
 
-	buf := new(bytes.Buffer)
-	io.Copy(buf, r)
-
-	filenameMd5 := md5.Sum(buf.Bytes())
-	filename := hex.EncodeToString(filenameMd5[:])
-	pathAndFilename := pathKey.PathName + "/" + filename
+	pathAndFilename := pathKey.Filename()
 
 	f, err := os.Create(pathAndFilename)
 	if err != nil {
 		return err
 	}
 
-	n, err := io.Copy(f, buf)
+	n, err := io.Copy(f, r)
 	if err != nil {
 		return err
 	}
 
-	log.Printf("Wrote %d bytes to %s\n", n, pathKey.PathName+"/"+filename)
+	log.Printf("wrote %d bytes to %s", n, pathAndFilename)
 
 	return nil
 }
