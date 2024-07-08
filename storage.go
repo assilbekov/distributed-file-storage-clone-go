@@ -34,11 +34,11 @@ type PathTransformFunc func(string) PathKey
 
 type PathKey struct {
 	PathName string
-	Original string
+	Filename string
 }
 
-func (p PathKey) Filename() string {
-	return fmt.Sprintf("%s/%s", p.PathName, p.Original)
+func (p PathKey) FullPath() string {
+	return fmt.Sprintf("%s/%s", p.PathName, p.Filename)
 }
 
 type StoreOpts struct {
@@ -59,13 +59,19 @@ func NewStore(opts StoreOpts) *Store {
 	}
 }
 
+func (s *Store) readStream(key string) (io.Reader, error) {
+	pathKey := s.PathTransformFunc(key)
+
+	f, err := os.Open(pathKey.FullPath())
+}
+
 func (s *Store) writeStream(key string, r io.Reader) error {
 	pathKey := s.PathTransformFunc(key)
 	if err := os.MkdirAll(pathKey.PathName, os.ModePerm); err != nil {
 		return err
 	}
 
-	pathAndFilename := pathKey.Filename()
+	pathAndFilename := pathKey.FullPath()
 
 	f, err := os.Create(pathAndFilename)
 	if err != nil {
