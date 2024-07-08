@@ -26,7 +26,7 @@ func CASPathTransformFunc(key string) PathKey {
 
 	return PathKey{
 		PathName: strings.Join(paths, "/"),
-		Original: key,
+		Filename: key,
 	}
 }
 
@@ -63,6 +63,11 @@ func (s *Store) readStream(key string) (io.Reader, error) {
 	pathKey := s.PathTransformFunc(key)
 
 	f, err := os.Open(pathKey.FullPath())
+	if err != nil {
+		return nil, err
+	}
+
+	return f, nil
 }
 
 func (s *Store) writeStream(key string, r io.Reader) error {
@@ -71,9 +76,9 @@ func (s *Store) writeStream(key string, r io.Reader) error {
 		return err
 	}
 
-	pathAndFilename := pathKey.FullPath()
+	fullPath := pathKey.FullPath()
 
-	f, err := os.Create(pathAndFilename)
+	f, err := os.Create(fullPath)
 	if err != nil {
 		return err
 	}
@@ -83,7 +88,7 @@ func (s *Store) writeStream(key string, r io.Reader) error {
 		return err
 	}
 
-	log.Printf("wrote %d bytes to %s", n, pathAndFilename)
+	log.Printf("wrote %d bytes to %s", n, fullPath)
 
 	return nil
 }
