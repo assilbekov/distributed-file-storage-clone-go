@@ -14,8 +14,8 @@ func TestPathTransformFunc(t *testing.T) {
 		t.Fatalf("expected pathname %s, got %s", expectedPathname, pathKey.PathName)
 	}
 
-	if pathKey.Original != expectedOriginalKey {
-		t.Fatalf("expected original key %s, got %s", expectedOriginalKey, pathKey.Original)
+	if pathKey.Filename != expectedOriginalKey {
+		t.Fatalf("expected original key %s, got %s", expectedOriginalKey, pathKey.Filename)
 	}
 }
 
