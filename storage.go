@@ -65,12 +65,12 @@ func (s *Store) Read(key string) (io.Reader, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer f.Close()
 
 	buf := new(bytes.Buffer)
-	io.Copy(buf, f)
-	f.Close()
+	_, err = io.Copy(buf, f)
 
-	return buf, nil
+	return buf, err
 }
 
 func (s *Store) readStream(key string) (io.ReadCloser, error) {
