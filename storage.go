@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"crypto/sha1"
 	"encoding/hex"
 	"fmt"
@@ -57,6 +58,19 @@ func NewStore(opts StoreOpts) *Store {
 	return &Store{
 		StoreOpts: opts,
 	}
+}
+
+func (s *Store) Read(key string) (io.Reader, error) {
+	f, err := s.readStream(key)
+	if err != nil {
+		return nil, err
+	}
+
+	buf := new(bytes.Buffer)
+	io.Copy(buf, f)
+	f.Close()
+
+	return buf, nil
 }
 
 func (s *Store) readStream(key string) (io.ReadCloser, error) {
