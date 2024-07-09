@@ -59,15 +59,10 @@ func NewStore(opts StoreOpts) *Store {
 	}
 }
 
-func (s *Store) readStream(key string) (io.Reader, error) {
+func (s *Store) readStream(key string) (io.ReadCloser, error) {
 	pathKey := s.PathTransformFunc(key)
 
-	f, err := os.Open(pathKey.FullPath())
-	if err != nil {
-		return nil, err
-	}
-
-	return f, nil
+	return os.Open(pathKey.FullPath())
 }
 
 func (s *Store) writeStream(key string, r io.Reader) error {
