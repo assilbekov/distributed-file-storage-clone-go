@@ -60,6 +60,12 @@ func NewStore(opts StoreOpts) *Store {
 	}
 }
 
+func (s *Store) Delete(key string) error {
+	pathKey := s.PathTransformFunc(key)
+
+	return os.Remove(pathKey.FullPath())
+}
+
 func (s *Store) Read(key string) (io.Reader, error) {
 	f, err := s.readStream(key)
 	if err != nil {
