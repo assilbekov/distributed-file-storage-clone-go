@@ -63,6 +63,10 @@ func NewStore(opts StoreOpts) *Store {
 func (s *Store) Delete(key string) error {
 	pathKey := s.PathTransformFunc(key)
 
+	defer func() {
+		fmt.Printf("deleted [%s] from the disk\n", pathKey.FullPath())
+	}()
+
 	return os.Remove(pathKey.FullPath())
 }
 
