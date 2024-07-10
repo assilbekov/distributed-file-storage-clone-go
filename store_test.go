@@ -20,6 +20,23 @@ func TestPathTransformFunc(t *testing.T) {
 	}
 }
 
+func TestStoreDeleteKey(t *testing.T) {
+	opts := StoreOpts{
+		PathTransformFunc: CASPathTransformFunc,
+	}
+	s := NewStore(opts)
+	key := "catsbestpictures"
+	data := []byte("some jpeg data")
+
+	if err := s.writeStream(key, bytes.NewReader(data)); err != nil {
+		t.Fatalf("failed to write stream: %v", err)
+	}
+
+	if err := s.Delete(key); err != nil {
+		t.Fatalf("failed to delete key: %v", err)
+	}
+}
+
 func TestStore(t *testing.T) {
 	opts := StoreOpts{
 		PathTransformFunc: CASPathTransformFunc,
