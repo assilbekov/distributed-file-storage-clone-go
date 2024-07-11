@@ -60,6 +60,13 @@ func NewStore(opts StoreOpts) *Store {
 	}
 }
 
+func (s *Store) Has(key string) bool {
+	pathKey := s.PathTransformFunc(key)
+
+	_, err := os.Stat(pathKey.FullPath())
+	return err == nil
+}
+
 func (s *Store) Delete(key string) error {
 	pathKey := s.PathTransformFunc(key)
 
