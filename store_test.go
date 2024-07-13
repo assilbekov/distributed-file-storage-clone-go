@@ -62,4 +62,6 @@ func TestStore(t *testing.T) {
 	if !bytes.Equal(b, data) {
 		t.Fatalf("expected data %s, got %s", string(data), string(b))
 	}
+
+	s.Delete(key)
 }
