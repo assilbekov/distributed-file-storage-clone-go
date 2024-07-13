@@ -38,6 +38,10 @@ type PathKey struct {
 	Filename string
 }
 
+func (p *PathKey) FirstPathName() string {
+	return strings.Split(p.PathName, "/")[0]
+}
+
 func (p PathKey) FullPath() string {
 	return fmt.Sprintf("%s/%s", p.PathName, p.Filename)
 }
