@@ -39,7 +39,11 @@ type PathKey struct {
 }
 
 func (p *PathKey) FirstPathName() string {
-	return strings.Split(p.PathName, "/")[0]
+	paths := strings.Split(p.PathName, "/")
+	if len(paths) == 0 {
+		return ""
+	}
+	return paths[0]
 }
 
 func (p PathKey) FullPath() string {
