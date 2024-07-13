@@ -82,11 +82,11 @@ func (s *Store) Delete(key string) error {
 		fmt.Printf("deleted [%s] from the disk\n", pathKey.FullPath())
 	}()
 
-	if err := os.Remove(pathKey.FullPath()); err != nil {
+	/*if err := os.RemoveAll(pathKey.FullPath()); err != nil {
 		return err
-	}
+	}*/
 
-	return os.Remove(pathKey.PathName)
+	return os.RemoveAll(pathKey.FirstPathName())
 }
 
 func (s *Store) Read(key string) (io.Reader, error) {
