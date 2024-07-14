@@ -51,6 +51,8 @@ func (p PathKey) FullPath() string {
 }
 
 type StoreOpts struct {
+	// Root is a folder name of the root, containing all the files/folders of the system.
+	Root string
 	PathTransformFunc
 }
 
