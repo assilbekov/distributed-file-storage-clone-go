@@ -129,7 +129,7 @@ func (s *Store) writeStream(key string, r io.Reader) error {
 
 	fullPath := pathKey.FullPath()
 
-	f, err := os.Create(fullPath)
+	f, err := os.Create(s.Root + "/" + fullPath)
 	if err != nil {
 		return err
 	}
