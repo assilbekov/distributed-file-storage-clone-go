@@ -48,12 +48,12 @@ func TestStore(t *testing.T) {
 		t.Fatalf("failed to write stream: %v", err)
 	}
 
-	/*r, err := s.Read(key)
+	r, err := s.Read(key)
 	if err != nil {
 		t.Fatalf("failed to read stream: %v", err)
 	}
 
-	b, err := io.ReadAll(r)
+	/*b, err := io.ReadAll(r)
 	if err != nil {
 		t.Fatalf("failed to read all: %v", err)
 	}
