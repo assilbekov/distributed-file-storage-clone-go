@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"io"
 	"testing"
 )
 
@@ -53,7 +54,7 @@ func TestStore(t *testing.T) {
 		t.Fatalf("failed to read stream: %v", err)
 	}
 
-	/*b, err := io.ReadAll(r)
+	b, err := io.ReadAll(r)
 	if err != nil {
 		t.Fatalf("failed to read all: %v", err)
 	}
@@ -62,5 +63,5 @@ func TestStore(t *testing.T) {
 		t.Fatalf("expected data %s, got %s", string(data), string(b))
 	}
 
-	s.Delete(key)*/
+	s.Delete(key)
 }
