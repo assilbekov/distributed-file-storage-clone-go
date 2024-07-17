@@ -13,6 +13,10 @@ func newStore() *Store {
 	return NewStore(opts)
 }
 
+func teardownStore(t *testing.T, s *Store) {
+
+}
+
 func TestPathTransformFunc(t *testing.T) {
 	key := "catsbestpictures"
 	pathKey := CASPathTransformFunc(key)
