@@ -49,6 +49,10 @@ func TestStore(t *testing.T) {
 		t.Fatalf("failed to write stream: %v", err)
 	}
 
+	if ok := s.Has(key); !ok {
+		t.Fatalf("expected key %s to exist", key)
+	}
+
 	r, err := s.Read(key)
 	if err != nil {
 		t.Fatalf("failed to read stream: %v", err)
