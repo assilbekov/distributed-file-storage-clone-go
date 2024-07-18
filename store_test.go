@@ -14,7 +14,9 @@ func newStore() *Store {
 }
 
 func teardownStore(t *testing.T, s *Store) {
-
+	if err := s.Clear(); err != nil {
+		t.Fatalf("failed to clear store: %v", err)
+	}
 }
 
 func TestPathTransformFunc(t *testing.T) {
