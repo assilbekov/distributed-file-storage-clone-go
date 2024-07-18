@@ -51,10 +51,9 @@ func TestStoreDeleteKey(t *testing.T) {
 }
 
 func TestStore(t *testing.T) {
-	opts := StoreOpts{
-		PathTransformFunc: CASPathTransformFunc,
-	}
-	s := NewStore(opts)
+	s := newStore()
+	defer teardownStore(t, s)
+
 	key := "catsbestpictures"
 	data := []byte("some jpeg data")
 
