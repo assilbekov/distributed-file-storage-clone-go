@@ -2,22 +2,10 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"testing"
 )
-
-func newStore() *Store {
-	opts := StoreOpts{
-		PathTransformFunc: CASPathTransformFunc,
-	}
-	return NewStore(opts)
-}
-
-func teardownStore(t *testing.T, s *Store) {
-	if err := s.Clear(); err != nil {
-		t.Fatalf("failed to clear store: %v", err)
-	}
-}
 
 func TestPathTransformFunc(t *testing.T) {
 	key := "catsbestpictures"
@@ -54,30 +42,45 @@ func TestStore(t *testing.T) {
 	s := newStore()
 	defer teardownStore(t, s)
 
-	key := "catsbestpictures"
-	data := []byte("some jpeg data")
+	for i := 0; i < 50; i++ {
+		key := fmt.Sprintf("key_%d", i)
+		data := []byte("some jpeg data")
 
-	if err := s.writeStream(key, bytes.NewReader(data)); err != nil {
-		t.Fatalf("failed to write stream: %v", err)
+		if err := s.writeStream(key, bytes.NewReader(data)); err != nil {
+			t.Fatalf("failed to write stream: %v", err)
+		}
+
+		if ok := s.Has(key); !ok {
+			t.Fatalf("expected key %s to exist", key)
+		}
+
+		r, err := s.Read(key)
+		if err != nil {
+			t.Fatalf("failed to read stream: %v", err)
+		}
+
+		b, err := io.ReadAll(r)
+		if err != nil {
+			t.Fatalf("failed to read all: %v", err)
+		}
+
+		if !bytes.Equal(b, data) {
+			t.Fatalf("expected data %s, got %s", string(data), string(b))
+		}
+
+		s.Delete(key)
 	}
+}
 
-	if ok := s.Has(key); !ok {
-		t.Fatalf("expected key %s to exist", key)
+func newStore() *Store {
+	opts := StoreOpts{
+		PathTransformFunc: CASPathTransformFunc,
 	}
+	return NewStore(opts)
+}
 
-	r, err := s.Read(key)
-	if err != nil {
-		t.Fatalf("failed to read stream: %v", err)
+func teardownStore(t *testing.T, s *Store) {
+	if err := s.Clear(); err != nil {
+		t.Fatalf("failed to clear store: %v", err)
 	}
-
-	b, err := io.ReadAll(r)
-	if err != nil {
-		t.Fatalf("failed to read all: %v", err)
-	}
-
-	if !bytes.Equal(b, data) {
-		t.Fatalf("expected data %s, got %s", string(data), string(b))
-	}
-
-	s.Delete(key)
 }
