@@ -71,6 +71,10 @@ func TestStore(t *testing.T) {
 		if err := s.Delete(key); err != nil {
 			t.Fatalf("failed to delete key: %v", err)
 		}
+
+		if ok := s.Has(key); ok {
+			t.Fatalf("expected key %s to be deleted", key)
+		}
 	}
 }
 
