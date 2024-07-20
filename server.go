@@ -1,8 +1,9 @@
 package main
 
 type FileServerOpts struct {
-	ListenAddr  string
-	StorageRoot string
+	ListenAddr        string
+	StorageRoot       string
+	PathTransformFunc PathTransformFunc
 }
 
 type FileServer struct {
@@ -12,8 +13,12 @@ type FileServer struct {
 }
 
 func NewFileServer(opts FileServerOpts) *FileServer {
+	storeOpts := StoreOpts{
+		Root:              opts.StorageRoot,
+		PathTransformFunc: opts.PathTransformFunc,
+	}
 	return &FileServer{
 		FileServerOpts: opts,
-		store:          NewStore(StoreOpts{Root: opts.StorageRoot}),
+		store:          NewStore(storeOpts),
 	}
 }
