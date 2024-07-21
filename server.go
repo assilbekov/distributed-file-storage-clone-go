@@ -26,6 +26,10 @@ func NewFileServer(opts FileServerOpts) *FileServer {
 	}
 }
 
-func (s *FileServer) Start() {
+func (s *FileServer) Start() error {
+	if err := s.Transport.ListenAndAccept(); err != nil {
+		return err
+	}
 
+	return nil
 }
