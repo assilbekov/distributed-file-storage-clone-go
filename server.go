@@ -1,9 +1,12 @@
 package main
 
+import "github.com/assilbekov/distributed-file-storage-clone-go/p2p"
+
 type FileServerOpts struct {
 	ListenAddr        string
 	StorageRoot       string
 	PathTransformFunc PathTransformFunc
+	Transport         p2p.Transport
 }
 
 type FileServer struct {
@@ -21,4 +24,8 @@ func NewFileServer(opts FileServerOpts) *FileServer {
 		FileServerOpts: opts,
 		store:          NewStore(storeOpts),
 	}
+}
+
+func (s *FileServer) Start() {
+
 }
