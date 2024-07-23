@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/assilbekov/distributed-file-storage-clone-go/p2p"
 )
 
@@ -34,7 +35,10 @@ func NewFileServer(opts FileServerOpts) *FileServer {
 func (s *FileServer) loop() {
 	for {
 		select {
-		//
+		case msg := <-s.Transport.Consume():
+			fmt.Println("received message", msg)
+		case <-s.quitch:
+			return
 		}
 	}
 }
