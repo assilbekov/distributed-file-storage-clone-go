@@ -15,7 +15,8 @@ type FileServerOpts struct {
 type FileServer struct {
 	FileServerOpts
 
-	store *Store
+	store  *Store
+	quitch chan struct{}
 }
 
 func NewFileServer(opts FileServerOpts) *FileServer {
@@ -26,6 +27,15 @@ func NewFileServer(opts FileServerOpts) *FileServer {
 	return &FileServer{
 		FileServerOpts: opts,
 		store:          NewStore(storeOpts),
+		quitch:         make(chan struct{}),
+	}
+}
+
+func (s *FileServer) loop() {
+	for {
+		select {
+		//
+		}
 	}
 }
 
