@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/assilbekov/distributed-file-storage-clone-go/p2p"
-	"io"
 )
 
 type FileServerOpts struct {
@@ -36,8 +35,4 @@ func (s *FileServer) Start() error {
 	}
 
 	return nil
-}
-
-func (s *FileServer) Store(key string, r io.Reader) error {
-	return s.store.Write(key, r)
 }
