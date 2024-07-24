@@ -37,6 +37,10 @@ func (s *FileServer) Stop() {
 }
 
 func (s *FileServer) loop() {
+	defer func() {
+		fmt.Printf("shutting down server\n")
+	}()
+
 	for {
 		select {
 		case msg := <-s.Transport.Consume():
