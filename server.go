@@ -32,6 +32,10 @@ func NewFileServer(opts FileServerOpts) *FileServer {
 	}
 }
 
+func (s *FileServer) Stop() {
+	close(s.quitch)
+}
+
 func (s *FileServer) loop() {
 	for {
 		select {
