@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/assilbekov/distributed-file-storage-clone-go/p2p"
 	"log"
+	"time"
 )
 
 func main() {
@@ -20,6 +21,11 @@ func main() {
 	}
 
 	s := NewFileServer(fileServerOpts)
+
+	go func() {
+		time.Sleep(5 * time.Second)
+		s.Stop()
+	}()
 
 	if err := s.Start(); err != nil {
 		log.Fatalf("failed to start server: %v", err)
