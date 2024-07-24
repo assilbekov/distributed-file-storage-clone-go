@@ -52,5 +52,7 @@ func (s *FileServer) Start() error {
 		return err
 	}
 
+	s.loop()
+
 	return nil
 }

@@ -24,6 +24,4 @@ func main() {
 	if err := s.Start(); err != nil {
 		log.Fatalf("failed to start server: %v", err)
 	}
-
-	select {}
 }
