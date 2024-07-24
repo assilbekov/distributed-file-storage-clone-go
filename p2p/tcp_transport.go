@@ -52,6 +52,11 @@ func (t *TCPTransport) Consume() <-chan RPC {
 	return t.rpcch
 }
 
+// Close implements the Transport interface. It closes the underlying listener.
+func (t *TCPTransport) Close() error {
+	return t.listener.Close()
+}
+
 func (t *TCPTransport) ListenAndAccept() error {
 	ln, err := net.Listen("tcp", t.ListedAddr)
 	if err != nil {
