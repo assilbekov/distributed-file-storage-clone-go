@@ -6,11 +6,9 @@ import (
 )
 
 type FileServerOpts struct {
-	ListenAddr        string
 	StorageRoot       string
 	PathTransformFunc PathTransformFunc
 	Transport         p2p.Transport
-	TCPTransportOpts  p2p.TCPTransportOpts
 }
 
 type FileServer struct {
