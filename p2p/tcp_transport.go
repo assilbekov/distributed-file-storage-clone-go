@@ -1,6 +1,7 @@
 package p2p
 
 import (
+	"errors"
 	"fmt"
 	"net"
 )
@@ -75,6 +76,10 @@ func (t *TCPTransport) ListenAndAccept() error {
 func (t *TCPTransport) startAcceptLoop() {
 	for {
 		conn, err := t.listener.Accept()
+		if errors.Is(err, net.ErrClosed) {
+			return
+		}
+
 		if err != nil {
 			// Handle error
 			fmt.Printf("TCP error accepting connection: %v\n", err)
