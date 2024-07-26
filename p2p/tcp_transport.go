@@ -58,11 +58,16 @@ func (t *TCPTransport) Close() error {
 	return t.listener.Close()
 }
 
+// Dial implements the Transport interface. It dials a connection to the given address.
 func (t *TCPTransport) Dial(addr string) error {
 	conn, err := net.Dial("tcp", addr)
 	if err != nil {
 		return err
 	}
+
+	go t.handleConnection(conn, true)
+
+	return nil
 }
 
 func (t *TCPTransport) ListenAndAccept() error {
@@ -93,7 +98,7 @@ func (t *TCPTransport) startAcceptLoop() {
 			continue
 		}
 
-		go t.handleConnection(conn)
+		go t.handleConnection(conn, false)
 	}
 }
 
