@@ -18,6 +18,7 @@ func main() {
 		StorageRoot:       "8080_network",
 		PathTransformFunc: CASPathTransformFunc,
 		Transport:         tcpTransport,
+		BootstrapNodes:    []string{":4000"},
 	}
 
 	s := NewFileServer(fileServerOpts)
