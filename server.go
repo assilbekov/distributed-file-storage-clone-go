@@ -68,6 +68,7 @@ func (s *FileServer) Start() error {
 		return err
 	}
 
+	s.bootstrapNetwork()
 	s.loop()
 
 	return nil
