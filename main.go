@@ -6,22 +6,25 @@ import (
 	"time"
 )
 
-func main() {
+func makeServer(listenAddr, root string, nodes ...string) *FileServer {
 	tcpTransportOpts := p2p.TCPTransportOpts{
-		ListedAddr:    ":8080",
+		ListedAddr:    listenAddr,
 		HandshakeFunc: p2p.NOPHandshakeFunc,
 		Decoder:       p2p.DefaultDecoder{},
 		// TODO: onPeer func.
 	}
 	tcpTransport := p2p.NewTCPTransport(tcpTransportOpts)
 	fileServerOpts := FileServerOpts{
-		StorageRoot:       "8080_network",
+		StorageRoot:       listenAddr + "_network",
 		PathTransformFunc: CASPathTransformFunc,
 		Transport:         tcpTransport,
-		BootstrapNodes:    []string{":4000"},
+		BootstrapNodes:    nodes,
 	}
 
-	s := NewFileServer(fileServerOpts)
+	return NewFileServer(fileServerOpts)
+}
+
+func main() {
 
 	go func() {
 		time.Sleep(5 * time.Second)
