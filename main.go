@@ -3,10 +3,9 @@ package main
 import (
 	"github.com/assilbekov/distributed-file-storage-clone-go/p2p"
 	"log"
-	"time"
 )
 
-func makeServer(listenAddr, root string, nodes ...string) *FileServer {
+func makeServer(listenAddr string, nodes ...string) *FileServer {
 	tcpTransportOpts := p2p.TCPTransportOpts{
 		ListedAddr:    listenAddr,
 		HandshakeFunc: p2p.NOPHandshakeFunc,
@@ -25,13 +24,8 @@ func makeServer(listenAddr, root string, nodes ...string) *FileServer {
 }
 
 func main() {
-
+	s1 := makeServer("localhost:8080", "")
 	go func() {
-		time.Sleep(5 * time.Second)
-		s.Stop()
+		log.Fatal(s1.Start())
 	}()
-
-	if err := s.Start(); err != nil {
-		log.Fatalf("failed to start server: %v", err)
-	}
 }
