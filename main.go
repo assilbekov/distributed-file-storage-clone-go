@@ -25,7 +25,10 @@ func makeServer(listenAddr string, nodes ...string) *FileServer {
 
 func main() {
 	s1 := makeServer("localhost:8080", "")
+	s2 := makeServer("localhost:8081", "localhost:8080")
 	go func() {
 		log.Fatal(s1.Start())
 	}()
+
+	s2.Start()
 }
