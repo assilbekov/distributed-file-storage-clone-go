@@ -69,7 +69,11 @@ func (s *FileServer) Start() error {
 		return err
 	}
 
-	s.bootstrapNetwork()
+	if len(s.BootstrapNodes) != 0 {
+		fmt.Printf("bootstrapping network with %v\n", s.BootstrapNodes)
+		s.bootstrapNetwork()
+	}
+
 	s.loop()
 
 	return nil
