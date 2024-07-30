@@ -40,6 +40,11 @@ func (s *FileServer) Stop() {
 	close(s.quitch)
 }
 
+func (s *FileServer) onPeer(peer p2p.Peer) error {
+	s.peerLock.Lock()
+	defer s.peerLock.Unlock()
+}
+
 func (s *FileServer) loop() {
 	defer func() {
 		fmt.Printf("shutting down server\n")
