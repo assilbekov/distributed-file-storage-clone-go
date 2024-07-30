@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/assilbekov/distributed-file-storage-clone-go/p2p"
+	"sync"
 )
 
 type FileServerOpts struct {
@@ -14,6 +15,9 @@ type FileServerOpts struct {
 
 type FileServer struct {
 	FileServerOpts
+
+	peerLock sync.Mutex
+	peers    map[string]p2p.Peer
 
 	store  *Store
 	quitch chan struct{}
@@ -28,6 +32,7 @@ func NewFileServer(opts FileServerOpts) *FileServer {
 		FileServerOpts: opts,
 		store:          NewStore(storeOpts),
 		quitch:         make(chan struct{}),
+		peers:          make(map[string]p2p.Peer),
 	}
 }
 
