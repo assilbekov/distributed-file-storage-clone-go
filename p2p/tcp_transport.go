@@ -23,8 +23,8 @@ func NewTCPPeer(conn net.Conn, outbound bool) *TCPPeer {
 	}
 }
 
-func (p *TCPPeer) RemoteAddr() string {
-	return p.conn.RemoteAddr().String()
+func (p *TCPPeer) RemoteAddr() net.Addr {
+	return p.conn.RemoteAddr()
 }
 
 // Close implements the Peer interface. It closes the underlying connection.
