@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/assilbekov/distributed-file-storage-clone-go/p2p"
+	"log"
 	"sync"
 )
 
@@ -43,6 +44,12 @@ func (s *FileServer) Stop() {
 func (s *FileServer) onPeer(peer p2p.Peer) error {
 	s.peerLock.Lock()
 	defer s.peerLock.Unlock()
+
+	s.peers[peer.RemoteAddr().String()] = peer
+
+	log.Println("new peer connected", peer.RemoteAddr().String())
+
+	return nil
 }
 
 func (s *FileServer) loop() {
