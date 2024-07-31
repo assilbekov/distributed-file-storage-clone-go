@@ -20,7 +20,10 @@ func makeServer(listenAddr string, nodes ...string) *FileServer {
 		BootstrapNodes:    nodes,
 	}
 
-	return NewFileServer(fileServerOpts)
+	s := NewFileServer(fileServerOpts)
+	tcpTransportOpts.OnPeer = s.onPeer
+
+	return s
 }
 
 func main() {
