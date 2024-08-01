@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"github.com/assilbekov/distributed-file-storage-clone-go/p2p"
 	"log"
 )
@@ -34,4 +35,7 @@ func main() {
 	}()
 
 	s2.Start()
+
+	data := bytes.NewReader([]byte("My new big data file"))
+	s2.StoreFile("key", data)
 }
