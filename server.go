@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/assilbekov/distributed-file-storage-clone-go/p2p"
+	"io"
 	"log"
 	"sync"
 )
@@ -35,6 +36,13 @@ func NewFileServer(opts FileServerOpts) *FileServer {
 		quitch:         make(chan struct{}),
 		peers:          make(map[string]p2p.Peer),
 	}
+}
+
+func (s *FileServer) StoreData(key string, r io.Reader) error {
+	// 1. Write the data to the store.
+	// 2. Broadcast the data to all connected peers.
+
+	return nil
 }
 
 func (s *FileServer) Stop() {
