@@ -38,6 +38,13 @@ func NewFileServer(opts FileServerOpts) *FileServer {
 	}
 }
 
+type Payload struct {
+	Key  string
+	Data []byte
+}
+
+func (s *FileServer) broadcast(p Payload) error {}
+
 func (s *FileServer) StoreData(key string, r io.Reader) error {
 	// 1. Write the data to the store.
 	// 2. Broadcast the data to all connected peers.
