@@ -45,7 +45,13 @@ type Payload struct {
 }
 
 func (s *FileServer) broadcast(p Payload) error {
-	return gob.NewEncoder(p).Encode(p)
+	for _, peer := range s.peers {
+		if err := gob.NewEncoder(peer); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func (s *FileServer) StoreData(key string, r io.Reader) error {
