@@ -28,15 +28,6 @@ func (p *TCPPeer) Send(data []byte) error {
 	return err
 }
 
-func (p *TCPPeer) RemoteAddr() net.Addr {
-	return p.conn.RemoteAddr()
-}
-
-// Close implements the Peer interface. It closes the underlying connection.
-func (p *TCPPeer) Close() error {
-	return p.conn.Close()
-}
-
 type TCPTransportOpts struct {
 	ListedAddr    string
 	HandshakeFunc HandshakeFunc
