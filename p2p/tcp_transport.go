@@ -9,7 +9,7 @@ import (
 // TCPPeer represents a node in the network.
 type TCPPeer struct {
 	// con is an underlying connection of the peer.
-	conn net.Conn
+	Conn net.Conn
 
 	// if we dial and retrieve a connection, outbound is true
 	// if we accept and retrieve a connection, outbound is false
@@ -18,13 +18,13 @@ type TCPPeer struct {
 
 func NewTCPPeer(conn net.Conn, outbound bool) *TCPPeer {
 	return &TCPPeer{
-		conn:     conn,
+		Conn:     conn,
 		outbound: outbound,
 	}
 }
 
 func (p *TCPPeer) Send(data []byte) error {
-	_, err := p.conn.Write(data)
+	_, err := p.Conn.Write(data)
 	return err
 }
 
