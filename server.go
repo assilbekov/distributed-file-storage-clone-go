@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/gob"
 	"fmt"
 	"github.com/assilbekov/distributed-file-storage-clone-go/p2p"
 	"io"
@@ -44,7 +45,7 @@ type Payload struct {
 }
 
 func (s *FileServer) broadcast(p Payload) error {
-	// return gob.NewEncoder(p.conn).Encode(p)
+	return gob.NewEncoder(p).Encode(p)
 }
 
 func (s *FileServer) StoreData(key string, r io.Reader) error {
