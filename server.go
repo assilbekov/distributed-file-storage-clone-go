@@ -39,11 +39,6 @@ func NewFileServer(opts FileServerOpts) *FileServer {
 	}
 }
 
-type Payload struct {
-	Key  string
-	Data []byte
-}
-
 func (s *FileServer) broadcast(p Payload) error {
 	peers := []io.Writer{}
 	for _, peer := range s.peers {
@@ -60,6 +55,11 @@ func (s *FileServer) StoreData(key string, r io.Reader) error {
 	// 2. Broadcast the data to all connected peers.
 
 	return nil
+}
+
+type Payload struct {
+	Key  string
+	Data []byte
 }
 
 func (s *FileServer) Stop() {

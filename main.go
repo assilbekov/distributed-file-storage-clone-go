@@ -37,5 +37,5 @@ func main() {
 	s2.Start()
 
 	data := bytes.NewReader([]byte("My new big data file"))
-	s2.StoreFile("key", data)
+	s2.StoreData("key", data)
 }
