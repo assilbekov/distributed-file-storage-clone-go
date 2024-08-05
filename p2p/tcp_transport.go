@@ -9,7 +9,7 @@ import (
 // TCPPeer represents a node in the network.
 type TCPPeer struct {
 	// con is an underlying connection of the peer.
-	Conn net.Conn
+	net.Conn
 
 	// if we dial and retrieve a connection, outbound is true
 	// if we accept and retrieve a connection, outbound is false
