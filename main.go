@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"github.com/assilbekov/distributed-file-storage-clone-go/p2p"
 	"log"
+	"time"
 )
 
 func makeServer(listenAddr string, nodes ...string) *FileServer {
@@ -34,7 +35,8 @@ func main() {
 		log.Fatal(s1.Start())
 	}()
 
-	s2.Start()
+	go s2.Start()
+	time.Sleep(2 * time.Second)
 
 	data := bytes.NewReader([]byte("My new big data file"))
 	s2.StoreData("key", data)
