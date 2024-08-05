@@ -40,4 +40,6 @@ func main() {
 
 	data := bytes.NewReader([]byte("My new big data file"))
 	s2.StoreData("key", data)
+
+	select {}
 }

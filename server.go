@@ -40,7 +40,7 @@ func NewFileServer(opts FileServerOpts) *FileServer {
 	}
 }
 
-func (s *FileServer) broadcast(p Payload) error {
+func (s *FileServer) broadcast(p *Payload) error {
 	peers := []io.Writer{}
 	for _, peer := range s.peers {
 		peers = append(peers, peer)
@@ -65,9 +65,14 @@ func (s *FileServer) StoreData(key string, r io.Reader) error {
 		return err
 	}
 
+	p := &Payload{
+		Key:  key,
+		Data: buf.Bytes(),
+	}
+
 	fmt.Println(buf.Bytes())
 
-	return nil
+	return s.broadcast(p)
 }
 
 type Payload struct {
