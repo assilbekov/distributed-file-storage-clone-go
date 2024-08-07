@@ -60,10 +60,7 @@ func (s *FileServer) StoreData(key string, r io.Reader) error {
 	}
 
 	buf := new(bytes.Buffer)
-	_, err := io.Copy(buf, r)
-	if err != nil {
-		return err
-	}
+	tee := io.TeeReader(buf, r)
 
 	p := &Payload{
 		Key:  key,
@@ -104,12 +101,12 @@ func (s *FileServer) loop() {
 	for {
 		select {
 		case msg := <-s.Transport.Consume():
-			fmt.Printf("message revieved")
 			var p Payload
 			if err := gob.NewDecoder(bytes.NewReader(msg.Payload)).Decode(&p); err != nil {
 				log.Fatal(err)
 				continue
 			}
+			fmt.Printf("%+v\n", p)
 		case <-s.quitch:
 			return
 		}
