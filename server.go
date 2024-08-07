@@ -104,6 +104,7 @@ func (s *FileServer) loop() {
 	for {
 		select {
 		case msg := <-s.Transport.Consume():
+			fmt.Printf("message revieved")
 			var p Payload
 			if err := gob.NewDecoder(bytes.NewReader(msg.Payload)).Decode(&p); err != nil {
 				log.Fatal(err)
