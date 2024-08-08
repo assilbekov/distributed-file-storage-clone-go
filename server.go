@@ -54,13 +54,12 @@ func (s *FileServer) broadcast(p *Payload) error {
 func (s *FileServer) StoreData(key string, r io.Reader) error {
 	// 1. Write the data to the store.
 	// 2. Broadcast the data to all connected peers.
+	buf := new(bytes.Buffer)
+	tee := io.TeeReader(r, buf)
 
-	if err := s.store.Write(key, r); err != nil {
+	if err := s.store.Write(key, tee); err != nil {
 		return err
 	}
-
-	buf := new(bytes.Buffer)
-	tee := io.TeeReader(buf, r)
 
 	p := &Payload{
 		Key:  key,
