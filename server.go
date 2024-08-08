@@ -40,15 +40,14 @@ func NewFileServer(opts FileServerOpts) *FileServer {
 	}
 }
 
-func (s *FileServer) broadcast(p *DataMessage) error {
+func (s *FileServer) broadcast(msg *DataMessage) error {
 	peers := []io.Writer{}
 	for _, peer := range s.peers {
 		peers = append(peers, peer)
 	}
 
-	io.MultiWriter(peers...)
-
-	return gob.NewEncoder(io.MultiWriter(peers...)).Encode(p)
+	mw := io.MultiWriter(peers...)
+	return gob.NewEncoder(mw).Encode(msg)
 }
 
 type Message struct {
@@ -71,7 +70,9 @@ func (s *FileServer) StoreData(key string, r io.Reader) error {
 		Data: buf.Bytes(),
 	}
 
-	return s.broadcast(p)
+	return s.broadcast(&Message{
+		From:
+	})
 }
 
 type DataMessage struct {
