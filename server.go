@@ -40,7 +40,7 @@ func NewFileServer(opts FileServerOpts) *FileServer {
 	}
 }
 
-func (s *FileServer) broadcast(p *Payload) error {
+func (s *FileServer) broadcast(p *DataMessage) error {
 	peers := []io.Writer{}
 	for _, peer := range s.peers {
 		peers = append(peers, peer)
@@ -49,6 +49,11 @@ func (s *FileServer) broadcast(p *Payload) error {
 	io.MultiWriter(peers...)
 
 	return gob.NewEncoder(io.MultiWriter(peers...)).Encode(p)
+}
+
+type Message struct {
+	From    string
+	Payload any
 }
 
 func (s *FileServer) StoreData(key string, r io.Reader) error {
@@ -61,7 +66,7 @@ func (s *FileServer) StoreData(key string, r io.Reader) error {
 		return err
 	}
 
-	p := &Payload{
+	p := &DataMessage{
 		Key:  key,
 		Data: buf.Bytes(),
 	}
@@ -69,7 +74,7 @@ func (s *FileServer) StoreData(key string, r io.Reader) error {
 	return s.broadcast(p)
 }
 
-type Payload struct {
+type DataMessage struct {
 	Key  string
 	Data []byte
 }
@@ -98,7 +103,7 @@ func (s *FileServer) loop() {
 	for {
 		select {
 		case msg := <-s.Transport.Consume():
-			var p Payload
+			var p DataMessage
 			if err := gob.NewDecoder(bytes.NewReader(msg.Payload)).Decode(&p); err != nil {
 				log.Fatal(err)
 				continue
@@ -109,6 +114,8 @@ func (s *FileServer) loop() {
 		}
 	}
 }
+
+func (s *FileServer) handleMessage(p *DataMessage) error {}
 
 func (s *FileServer) bootstrapNetwork() error {
 	for _, addr := range s.BootstrapNodes {
