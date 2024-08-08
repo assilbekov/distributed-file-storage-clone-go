@@ -66,8 +66,6 @@ func (s *FileServer) StoreData(key string, r io.Reader) error {
 		Data: buf.Bytes(),
 	}
 
-	fmt.Println(buf.Bytes())
-
 	return s.broadcast(p)
 }
 
@@ -105,7 +103,7 @@ func (s *FileServer) loop() {
 				log.Fatal(err)
 				continue
 			}
-			fmt.Printf("%+v\n", p)
+			fmt.Printf("%+v\n", string(p.Data))
 		case <-s.quitch:
 			return
 		}
