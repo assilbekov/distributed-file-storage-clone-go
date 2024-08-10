@@ -71,7 +71,8 @@ func (s *FileServer) StoreData(key string, r io.Reader) error {
 	}
 
 	return s.broadcast(&Message{
-		From:
+		From:    "Todo",
+		Payload: p,
 	})
 }
 
