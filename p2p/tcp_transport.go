@@ -29,7 +29,7 @@ func (p *TCPPeer) Send(data []byte) error {
 }
 
 type TCPTransportOpts struct {
-	ListedAddr    string
+	ListenAddr    string
 	HandshakeFunc HandshakeFunc
 	Decoder       Decoder
 	OnPeer        func(Peer) error
@@ -46,10 +46,6 @@ func NewTCPTransport(opts TCPTransportOpts) *TCPTransport {
 		TCPTransportOpts: opts,
 		rpcch:            make(chan RPC),
 	}
-}
-
-func (t *TCPTransport) ListenAddr() string {
-	return t.ListedAddr
 }
 
 // Consume implements the Transport interface. Will return a read-only channel of RPC messages.
