@@ -105,19 +105,21 @@ func (s *FileServer) loop() {
 	for {
 		select {
 		case msg := <-s.Transport.Consume():
-			var p DataMessage
-			if err := gob.NewDecoder(bytes.NewReader(msg.Payload)).Decode(&p); err != nil {
-				log.Fatal(err)
-				continue
+			var m Message
+			if err := gob.NewDecoder(bytes.NewReader(msg.Payload)).Decode(&m); err != nil {
+				log.Printf("failed to decode message: %v\n", err)
 			}
-			fmt.Printf("%+v\n", string(p.Data))
+
+			if err := s.handleMessage(&m); err != nil {
+				log.Printf("failed to handle message: %v\n", err)
+			}
 		case <-s.quitch:
 			return
 		}
 	}
 }
 
-func (s *FileServer) handleMessage(p *DataMessage) error {}
+func (s *FileServer) handleMessage(msg *Message) error {}
 
 func (s *FileServer) bootstrapNetwork() error {
 	for _, addr := range s.BootstrapNodes {
