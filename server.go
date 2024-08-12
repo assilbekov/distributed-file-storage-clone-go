@@ -51,13 +51,27 @@ func (s *FileServer) broadcast(msg *DataMessage) error {
 }
 
 type Message struct {
-	From    string
 	Payload any
 }
 
 func (s *FileServer) StoreData(key string, r io.Reader) error {
 	// 1. Write the data to the store.
 	// 2. Broadcast the data to all connected peers.
+
+	buf := new(bytes.Buffer)
+	msg := &Message{
+		Payload: []byte("storagekey"),
+	}
+	if err := gob.NewEncoder(buf).Encode(msg); err != nil {
+		return err
+	}
+
+	for _, peer := range s.peers {
+		if err := peer.Send(); err != nil {
+			return err
+		}
+	}
+
 	/*buf := new(bytes.Buffer)
 	tee := io.TeeReader(r, buf)
 
