@@ -122,8 +122,10 @@ func (s *FileServer) loop() {
 func (s *FileServer) handleMessage(msg *Message) error {
 	switch v := msg.Payload.(type) {
 	case *DataMessage:
-		fmt.Printf("received data message from %s\n", msg.From)
+		fmt.Printf("received data %+v\n", v)
 	}
+
+	return nil
 }
 
 func (s *FileServer) bootstrapNetwork() error {
