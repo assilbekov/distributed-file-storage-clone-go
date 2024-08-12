@@ -58,7 +58,7 @@ type Message struct {
 func (s *FileServer) StoreData(key string, r io.Reader) error {
 	// 1. Write the data to the store.
 	// 2. Broadcast the data to all connected peers.
-	buf := new(bytes.Buffer)
+	/*buf := new(bytes.Buffer)
 	tee := io.TeeReader(r, buf)
 
 	if err := s.store.Write(key, tee); err != nil {
@@ -73,12 +73,7 @@ func (s *FileServer) StoreData(key string, r io.Reader) error {
 	return s.broadcast(&Message{
 		From:    "Todo",
 		Payload: p,
-	})
-}
-
-type DataMessage struct {
-	Key  string
-	Data []byte
+	})*/
 }
 
 func (s *FileServer) Stop() {
