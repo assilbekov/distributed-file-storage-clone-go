@@ -72,6 +72,8 @@ func (s *FileServer) StoreData(key string, r io.Reader) error {
 		}
 	}
 
+	return nil
+
 	/*buf := new(bytes.Buffer)
 	tee := io.TeeReader(r, buf)
 
@@ -113,29 +115,31 @@ func (s *FileServer) loop() {
 
 	for {
 		select {
-		case msg := <-s.Transport.Consume():
-			var m Message
-			if err := gob.NewDecoder(bytes.NewReader(msg.Payload)).Decode(&m); err != nil {
+		case rpc := <-s.Transport.Consume():
+			var msg Message
+			if err := gob.NewDecoder(bytes.NewReader(rpc.Payload)).Decode(&msg); err != nil {
 				log.Printf("failed to decode message: %v\n", err)
 			}
 
-			if err := s.handleMessage(&m); err != nil {
+			fmt.Printf("received message %+v\n", msg)
+
+			/*if err := s.handleMessage(&m); err != nil {
 				log.Printf("failed to handle message: %v\n", err)
-			}
+			}*/
 		case <-s.quitch:
 			return
 		}
 	}
 }
 
-func (s *FileServer) handleMessage(msg *Message) error {
+/*func (s *FileServer) handleMessage(msg *Message) error {
 	switch v := msg.Payload.(type) {
 	case *DataMessage:
 		fmt.Printf("received data %+v\n", v)
 	}
 
 	return nil
-}
+}*/
 
 func (s *FileServer) bootstrapNetwork() error {
 	for _, addr := range s.BootstrapNodes {
