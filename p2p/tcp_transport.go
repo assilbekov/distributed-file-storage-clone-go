@@ -135,7 +135,7 @@ func (t *TCPTransport) handleConnection(conn net.Conn, outbound bool) {
 			return
 		}
 
-		rpc.From = conn.RemoteAddr()
+		rpc.From = conn.RemoteAddr().String()
 		t.rpcch <- rpc
 	}
 
