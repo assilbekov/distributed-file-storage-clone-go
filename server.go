@@ -128,11 +128,15 @@ func (s *FileServer) loop() {
 				log.Printf("failed to decode message: %v\n", err)
 			}
 
-			peer, ok := s.peers[rpc.From.String()]
-
+			peer, ok := s.peers[rpc.From]
 			if !ok {
 				log.Printf("peer not found: %v\n", rpc.From)
 				continue
+			}
+
+			b := make([]byte, 1024)
+			if _, err := peer.Read(b); err != nil {
+				log.Fatal("Couldn't read a buffer")
 			}
 
 			fmt.Printf("peer %+v\n", peer)
