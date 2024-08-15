@@ -138,6 +138,7 @@ func (s *FileServer) loop() {
 			if _, err := peer.Read(b); err != nil {
 				log.Fatal("Couldn't read a buffer")
 			}
+			panic("panic to test")
 
 			fmt.Printf("peer %+v\n", peer)
 
