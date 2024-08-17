@@ -8,6 +8,7 @@ import (
 	"io"
 	"log"
 	"sync"
+	"time"
 )
 
 type FileServerOpts struct {
@@ -72,6 +73,8 @@ func (s *FileServer) StoreData(key string, r io.Reader) error {
 		}
 	}
 
+	time.Sleep(3 * time.Second)
+
 	payload := []byte("THIS LARGE FILE")
 	for _, peer := range s.peers {
 		if err := peer.Send(payload); err != nil {
@@ -128,6 +131,8 @@ func (s *FileServer) loop() {
 				log.Printf("failed to decode message: %v\n", err)
 			}
 
+			fmt.Printf("received message %+v\n", msg)
+
 			peer, ok := s.peers[rpc.From]
 			if !ok {
 				log.Printf("peer not found: %v\n", rpc.From)
@@ -141,8 +146,6 @@ func (s *FileServer) loop() {
 			panic("panic to test")
 
 			fmt.Printf("peer %+v\n", peer)
-
-			fmt.Printf("received message %+v\n", msg)
 
 			/*if err := s.handleMessage(&m); err != nil {
 				log.Printf("failed to handle message: %v\n", err)
