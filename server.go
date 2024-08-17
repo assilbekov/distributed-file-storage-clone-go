@@ -146,6 +146,9 @@ func (s *FileServer) loop() {
 			panic("panic to test")
 
 			fmt.Printf("peer %+v\n", peer)
+			fmt.Printf("%s", string(b))
+
+			peer.(*p2p.TCPPeer).Wg.Done()
 
 			/*if err := s.handleMessage(&m); err != nil {
 				log.Printf("failed to handle message: %v\n", err)
