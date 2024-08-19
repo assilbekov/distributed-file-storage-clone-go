@@ -137,7 +137,7 @@ func (s *FileServer) loop() {
 				log.Printf("failed to decode message: %v\n", err)
 			}
 
-			fmt.Printf("received message %+v\n", msg)
+			fmt.Printf("payload: %+v\n", msg.Payload)
 
 			peer, ok := s.peers[rpc.From]
 			if !ok {
@@ -200,4 +200,8 @@ func (s *FileServer) Start() error {
 	s.loop()
 
 	return nil
+}
+
+func init() {
+	gob.Register(MessageStoreFile{})
 }
