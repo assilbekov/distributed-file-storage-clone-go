@@ -55,13 +55,19 @@ type Message struct {
 	Payload any
 }
 
+type MessageStoreFile struct {
+	Key string
+}
+
 func (s *FileServer) StoreData(key string, r io.Reader) error {
 	// 1. Write the data to the store.
 	// 2. Broadcast the data to all connected peers.
 
 	buf := new(bytes.Buffer)
 	msg := &Message{
-		Payload: []byte("storagekey"),
+		Payload: MessageStoreFile{
+			Key: key,
+		},
 	}
 	if err := gob.NewEncoder(buf).Encode(msg); err != nil {
 		return err
