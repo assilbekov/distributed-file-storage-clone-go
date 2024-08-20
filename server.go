@@ -165,14 +165,14 @@ func (s *FileServer) loop() {
 	}
 }
 
-/*func (s *FileServer) handleMessage(msg *Message) error {
+func (s *FileServer) handleMessage(msg *Message) error {
 	switch v := msg.Payload.(type) {
-	case *DataMessage:
+	case MessageStoreFile:
 		fmt.Printf("received data %+v\n", v)
 	}
 
 	return nil
-}*/
+}
 
 func (s *FileServer) bootstrapNetwork() error {
 	for _, addr := range s.BootstrapNodes {
