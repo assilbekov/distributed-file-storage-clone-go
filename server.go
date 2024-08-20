@@ -168,8 +168,15 @@ func (s *FileServer) loop() {
 func (s *FileServer) handleMessage(msg *Message) error {
 	switch v := msg.Payload.(type) {
 	case MessageStoreFile:
-		fmt.Printf("received data %+v\n", v)
+		//fmt.Printf("received data %+v\n", v)
+		return s.handleMessageStoreFile(msg.From, &v)
 	}
+
+	return nil
+}
+
+func (s *FileServer) handleMessageStoreFile(from string, msg *MessageStoreFile) error {
+	fmt.Printf("%+v\n", msg)
 
 	return nil
 }
