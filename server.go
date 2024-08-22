@@ -135,6 +135,12 @@ func (s *FileServer) loop() {
 			var msg Message
 			if err := gob.NewDecoder(bytes.NewReader(rpc.Payload)).Decode(&msg); err != nil {
 				log.Printf("failed to decode message: %v\n", err)
+				return
+			}
+
+			if err := s.handleMessage(rpc.From, msg.Payload); err != nil {
+				fmt.Printf("failed to handle message: %v\n", err)
+				return
 			}
 			/*
 				fmt.Printf("payload: %+v\n", msg.Payload)
