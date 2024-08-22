@@ -138,7 +138,7 @@ func (s *FileServer) loop() {
 				return
 			}
 
-			if err := s.handleMessage(rpc.From, msg.Payload); err != nil {
+			if err := s.handleMessage(rpc.From, &msg); err != nil {
 				fmt.Printf("failed to handle message: %v\n", err)
 				return
 			}
