@@ -136,26 +136,26 @@ func (s *FileServer) loop() {
 			if err := gob.NewDecoder(bytes.NewReader(rpc.Payload)).Decode(&msg); err != nil {
 				log.Printf("failed to decode message: %v\n", err)
 			}
+			/*
+				fmt.Printf("payload: %+v\n", msg.Payload)
 
-			fmt.Printf("payload: %+v\n", msg.Payload)
+				peer, ok := s.peers[rpc.From]
+				if !ok {
+					log.Printf("peer not found: %v\n", rpc.From)
+					continue
+				}
 
-			peer, ok := s.peers[rpc.From]
-			if !ok {
-				log.Printf("peer not found: %v\n", rpc.From)
-				continue
-			}
+				b := make([]byte, 1024)
+				if _, err := peer.Read(b); err != nil {
+					log.Fatal("Couldn't read a buffer")
+				}
+				panic("panic to test")
 
-			b := make([]byte, 1024)
-			if _, err := peer.Read(b); err != nil {
-				log.Fatal("Couldn't read a buffer")
-			}
-			panic("panic to test")
+				fmt.Printf("peer %+v\n", peer)
+				fmt.Printf("%s", string(b))
 
-			fmt.Printf("peer %+v\n", peer)
-			fmt.Printf("%s", string(b))
-
-			peer.(*p2p.TCPPeer).Wg.Done()
-
+				peer.(*p2p.TCPPeer).Wg.Done()
+			*/
 			/*if err := s.handleMessage(&m); err != nil {
 				log.Printf("failed to handle message: %v\n", err)
 			}*/
@@ -165,11 +165,11 @@ func (s *FileServer) loop() {
 	}
 }
 
-func (s *FileServer) handleMessage(msg *Message) error {
+func (s *FileServer) handleMessage(from string, msg *Message) error {
 	switch v := msg.Payload.(type) {
 	case MessageStoreFile:
 		//fmt.Printf("received data %+v\n", v)
-		return s.handleMessageStoreFile(msg.From, &v)
+		return s.handleMessageStoreFile(from, &v)
 	}
 
 	return nil
