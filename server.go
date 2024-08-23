@@ -182,7 +182,7 @@ func (s *FileServer) handleMessage(from string, msg *Message) error {
 }
 
 func (s *FileServer) handleMessageStoreFile(from string, msg *MessageStoreFile) error {
-	fmt.Printf("%+v\n", msg)
+	fmt.Printf("Recieved message store file: %+v\n", msg)
 
 	return nil
 }
