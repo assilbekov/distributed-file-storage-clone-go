@@ -166,9 +166,13 @@ func (s *FileServer) handleMessageStoreFile(from string, msg *MessageStoreFile) 
 		return fmt.Errorf("peer (%s) could not be found in the list of peers", from)
 	}
 
+	if err := s.store.Write(msg.Key, peer); err != nil {
+		return err
+	}
+
 	peer.(*p2p.TCPPeer).Wg.Done()
 
-	return s.store.Write(msg.Key, peer)
+	return nil
 }
 
 func (s *FileServer) bootstrapNetwork() error {
