@@ -142,29 +142,6 @@ func (s *FileServer) loop() {
 				fmt.Printf("failed to handle message: %v\n", err)
 				return
 			}
-			/*
-				fmt.Printf("payload: %+v\n", msg.Payload)
-
-				peer, ok := s.peers[rpc.From]
-				if !ok {
-					log.Printf("peer not found: %v\n", rpc.From)
-					continue
-				}
-
-				b := make([]byte, 1024)
-				if _, err := peer.Read(b); err != nil {
-					log.Fatal("Couldn't read a buffer")
-				}
-				panic("panic to test")
-
-				fmt.Printf("peer %+v\n", peer)
-				fmt.Printf("%s", string(b))
-
-				peer.(*p2p.TCPPeer).Wg.Done()
-			*/
-			/*if err := s.handleMessage(&m); err != nil {
-				log.Printf("failed to handle message: %v\n", err)
-			}*/
 		case <-s.quitch:
 			return
 		}
