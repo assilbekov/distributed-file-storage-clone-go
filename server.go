@@ -57,7 +57,7 @@ type Message struct {
 
 type MessageStoreFile struct {
 	Key  string
-	Size int
+	Size int64
 }
 
 func (s *FileServer) StoreData(key string, r io.Reader) error {
