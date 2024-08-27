@@ -85,9 +85,12 @@ func (s *FileServer) StoreData(key string, r io.Reader) error {
 
 	payload := []byte("THIS LARGE FILE")
 	for _, peer := range s.peers {
-		if err := peer.Send(payload); err != nil {
+		n, err := io.Copy(peer, bytes.NewReader(payload))
+		if err != nil {
 			return err
 		}
+
+		fmt.Printf("recieved and written bytes to disk: %v", n)
 	}
 
 	return nil
